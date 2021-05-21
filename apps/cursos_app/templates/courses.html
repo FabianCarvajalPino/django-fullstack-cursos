@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Agregar un curso</h2>
+        {% if messages %}
+        <ul class="messages">    
+            {% for message in messages %}    
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form action="create" method="POST">
+            {% csrf_token %}
+            <div class="form_group">
+                <label for="nameInput">Nombre:</label>
+                <input type="text" class="form_control" id="formInput" name="name" placeholder="Al menos 6 caracteres">
+            </div>
+            <div class="form_group">
+                <label for="descInput">Description:</label>
+                <textarea name="desc" class="form_control" id="descInput" cols="30" rows="3" placeholder="Al menos 16 caracteres"></textarea>
+                
+            </div>
+            <input type="submit" value="Agregar">
+        </form>
+        <h2>Cursos</h2>
+        <table class=table>
+            <tr>
+                <th>Nombre del curso</th>
+                <th>Descripcion</th>
+                <th>Fecha de ingreso</th>
+                <th>Acciones</th>
+            </tr>
+            {% for curso in cursos %}
+            <tr>
+                <td>{{curso.name}}</td>
+                <td>{{curso.desc.desc}}</td>
+                <td>{{curso.created_at}}</td>
+                <td>
+                    <a href="cursos/delete/{{curso.id}}">Borrar</a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+</body>
+</html>
